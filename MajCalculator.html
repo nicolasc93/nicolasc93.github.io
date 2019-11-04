@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="author" content="Nicolas-C">
+  <link href="./bootstrap-4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./css/general.css" rel="stylesheet">
+  <link href="./css/MajCalculator.css" rel="stylesheet">
+  <script src="./js/jquery-3.4.1.min.js" type="text/javascript"></script>
+  <script src="./bootstrap-4.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="./js/MajCalculator.js" type="text/javascript"></script>
+  <title>日麻在线计算器 | 淘气包nico的杂货铺</title>
+</head>
+
+<body>
+  <div class="header-general">
+    <nav class="navbar navbar-light justify-content-between" style="background-color: royalblue">
+      <a class="navbar-brand" style="font-weight: bolder; color: white;">淘气包nico的杂货铺</a>
+      <a href="./index.html">
+        <button type="button" class="btn btn-danger">首页</button>
+      </a>
+    </nav>
+  </div>
+
+  <div class="title text-center">
+    <p class="h3" id="a-title">日麻在线计算器</p>
+    <p class="h6" id="a-subtitle" style="font-weight: normal;">点击按钮以进入相应的功能模块</p>
+  </div>
+
+  <div class="container" id="a-start">
+    <div class="row justify-content-center" style="margin-bottom: 2%;">
+      <div class="col-1-3">
+        <button type="button" class="btn btn-outline-info" onclick="eventList.fu()">① 计算符数</button>
+      </div>
+    </div>
+    <div class="row justify-content-center" style="margin-bottom: 2%;">
+      <div class="col-1-3">
+        <button type="button" class="btn btn-outline-info" onclick="eventList.fan()">② 计算番数</button>
+      </div>
+    </div>
+    <div class="row justify-content-center" style="margin-bottom: 2%;">
+      <div class="col-1-3">
+        <button type="button" class="btn btn-outline-info" onclick="eventList.point()">③ 计算点数</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="a-fu" style="display: none">
+    <div class="card">
+      <div class="card-header h6" style="font-weight: normal;">
+        总符数：<span id="fu-total" style="font-weight: bold; color: red;">0</span>
+      </div>
+      <div class="card-body">
+        <div class="container">
+          <div class="row">
+            <div class="input-group col-md-8" style="margin-bottom: 1%;">
+              <div class="input-group-prepend">
+                <label class="input-group-text">和牌牌型</label>
+              </div>
+              <select class="custom-select" id="fu-paixing" onchange="fu_select()">
+                <option value="0" selected>请选择...</option>
+                <option value="1">七对子</option>
+                <option value="2">平和 自摸</option>
+                <option value="3">平和形式 副露荣和</option>
+                <option value="4">流局满贯</option>
+                <option value="5">其他形式</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-group col-md-4" style="margin-bottom: 1%;">
+              <div class="input-group-prepend">
+                <label class="input-group-text">和牌符</label>
+              </div>
+              <select class="custom-select" id="fu-hupai" style="display: none;">
+                <option value="0" selected>请选择...</option>
+                <option value="1">门前清 荣和</option>
+                <option value="2">有副露 荣和</option>
+                <option value="3">自摸</option>
+              </select>
+            </div>
+            <div class="input-group col-md-4" style="margin-bottom: 1%;">
+              <div class="input-group-prepend">
+                <label class="input-group-text">听牌符</label>
+              </div>
+              <select class="custom-select" id="fu-tingpai" style="display: none;">
+                <option value="0" selected>请选择...</option>
+                <option value="1">双碰</option>
+                <option value="2">两面</option>
+                <option value="3">边张</option>
+                <option value="4">嵌张</option>
+                <option value="5">单骑</option>
+              </select>
+            </div>
+            <div class="input-group col-md-4" style="margin-bottom: 1%;">
+              <div class="input-group-prepend">
+                <label class="input-group-text">雀头符</label>
+              </div>
+              <select class="custom-select" id="fu-quetou" style="display: none;">
+                <option value="0" selected>请选择...</option>
+                <option value="1">数字牌</option>
+                <option value="2">自风牌</option>
+                <option value="3">场风牌</option>
+                <option value="4">三元牌</option>
+                <option value="5">连风 (自风+场风) 牌</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8" id="fu-mianzi" style="margin-bottom: 1%; display: none;">
+              面子符<br />
+              <table class="table table-sm table-bordered">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col" class="text-center">#</th>
+                    <th scope="col" class="text-center">刻子</th>
+                    <th scope="col" class="text-center">杠子</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-center">中张明面</th>
+                    <td class="text-center">
+                      <select class="custom-select" id="zhong-mk">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                      </select>
+                    </td>
+                    <td class="text-center">
+                      <select class="custom-select" id="zhong-mg">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center">中张暗面</th>
+                    <td class="text-center">
+                      <select class="custom-select" id="zhong-ak">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                      </select>
+                    </td>
+                    <td class="text-center">
+                      <select class="custom-select" id="zhong-ag">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center">幺九明面</th>
+                    <td class="text-center">
+                      <select class="custom-select" id="yao-mk">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                      </select>
+                    </td>
+                    <td class="text-center">
+                      <select class="custom-select" id="yao-mg">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center">幺九暗面</th>
+                    <td class="text-center">
+                      <select class="custom-select" id="yao-ak">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                      </select>
+                    </td>
+                    <td class="text-center">
+                      <select class="custom-select" id="yao-ag">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="a-fu-btn text-center">
+      <button type="button" class="btn btn-success" onclick="fu_calculate()">开始计算吧</button>
+      &emsp;&emsp;
+      <button type="button" class="btn btn-danger" onclick="eventList.fu_back()">返回主界面</button><br />
+      <button type="button" class="btn btn-info" style="margin-top: 1%;" onclick="eventList2.fu_gotofan()">我想计算番数</button>
+    </div>
+  </div>
+
+  <div id="a-fan" style="display: none;">
+    <div class="card">
+      <div class="card-header h6" style="font-weight: normal;">
+        总番数 (除宝牌) ：<span id="fan-total" style="font-weight: bold; color: blue;">0</span>
+      </div>
+      <div class="card-body">
+        <div class="container">
+          <div class="row">
+            <div class="input-group col-md-6" style="margin-bottom: 1%;">
+              <div class="input-group-prepend">
+                <label class="input-group-text">和牌状态</label>
+              </div>
+              <select class="custom-select" id="fan-zhuangtai" onchange="fan_checkMenQianQing();">
+                <option value="1" selected>门前清</option>
+                <option value="2">有副露 (绿色役种减1番)</option>
+              </select>
+            </div>
+            <div class="input-group col-md-6" style="margin-bottom: 1%;">
+              <div class="input-group-prepend">
+                <label class="input-group-text">和牌役种</label>
+              </div>
+              <select class="custom-select" id="fan-yizhong" onchange="fan_checkYiZhong()">
+                <option value="0" selected>请选择...</option>
+                <option value="1">普通役种</option>
+                <option value="2">役满役种</option>
+                <option value="3">流局满贯</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-lg-3" id="putongfan1" style="display: none">
+              <table class="table table-sm table-bordered">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col" class="text-center">#</th>
+                    <th scope="col" class="text-center">1 番</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="putong1"></th>
+                    <td class="text-center">立直</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="putong1"></th>
+                    <td class="text-center">一发</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="putong1"></th>
+                    <td class="text-center">门前清自摸和</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="shiduan" name="putong1"></th>
+                    <td class="text-center">断幺九</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="putong1"></th>
+                    <td class="text-center">役牌：自风牌</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="putong1"></th>
+                    <td class="text-center">役牌：场风牌</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="sanyuan" name="putong1"></th>
+                    <td class="text-center">役牌：三元牌 (中)</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="sanyuan" name="putong1"></th>
+                    <td class="text-center">役牌：三元牌 (发)</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="sanyuan" name="putong1"></th>
+                    <td class="text-center">役牌：三元牌 (白)</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="putong1"></th>
+                    <td class="text-center">平和</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="putong1"></th>
+                    <td class="text-center">一杯口</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="putong1"></th>
+                    <td class="text-center">枪杠</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="putong1"></th>
+                    <td class="text-center">岭上开花</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="putong1"></th>
+                    <td class="text-center">海底捞月</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="putong1"></th>
+                    <td class="text-center">河底摸鱼</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6 col-lg-3" id="putongfan2" style="display: none">
+              <table class="table table-sm table-bordered">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col" class="text-center">#</th>
+                    <th scope="col" class="text-center">2 番</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="putong2"></th>
+                    <td class="text-center">两立直</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="putong2"></th>
+                    <td class="text-center">三色同刻</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="putong2"></th>
+                    <td class="text-center">三杠子</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="putong2"></th>
+                    <td class="text-center">对对和</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="putong2"></th>
+                    <td class="text-center">小三元</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="putong2"></th>
+                    <td class="text-center">混老头</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="putong2"></th>
+                    <td class="text-center">七对子</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="fuloujian" name="putong2"></th>
+                    <td class="text-center" style="color: green;">混全带幺九</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="fuloujian" name="putong2"></th>
+                    <td class="text-center" style="color: green;">一气通贯</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="fuloujian" name="putong2"></th>
+                    <td class="text-center" style="color: green;">三色同顺</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6 col-lg-3" id="putongfan3" style="display: none">
+              <table class="table table-sm table-bordered">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col" class="text-center">#</th>
+                    <th scope="col" class="text-center">3 番</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="putong3"></th>
+                    <td class="text-center">二杯口</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="fuloujian" name="putong3"></th>
+                    <td class="text-center" style="color: green;">纯全带幺九</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="fuloujian" name="putong3"></th>
+                    <td class="text-center" style="color: green;">混一色</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6 col-lg-3" id="putongfan6" style="display: none">
+              <table class="table table-sm table-bordered">
+                <thead class="thead-light">
+                <tr>
+                  <th scope="col" class="text-center">#</th>
+                  <th scope="col" class="text-center">6 番</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="fuloujian" name="putong6"></th>
+                    <td class="text-center" style="color: green;">清一色</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-lg-3" id="yimanfan1" style="display: none">
+              <table class="table table-sm table-bordered">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col" class="text-center">#</th>
+                    <th scope="col" class="text-center">役满</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="yiman1"></th>
+                    <td class="text-center">天和</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="yiman1"></th>
+                    <td class="text-center">地和</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="yiman1"></th>
+                    <td class="text-center">大三元</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="yiman1"></th>
+                    <td class="text-center">四暗刻</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="yiman1"></th>
+                    <td class="text-center">字一色</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="yiman1"></th>
+                    <td class="text-center">绿一色</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="yiman1"></th>
+                    <td class="text-center">清老头</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="yiman1"></th>
+                    <td class="text-center">国士无双</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="yiman1"></th>
+                    <td class="text-center">四杠子</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="yiman1"></th>
+                    <td class="text-center">小四喜</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="yiman1"></th>
+                    <td class="text-center">九莲宝灯</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6 col-lg-3" id="yimanfan2" style="display: none">
+              <table class="table table-sm table-bordered">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col" class="text-center">#</th>
+                    <th scope="col" class="text-center">两倍役满</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="yiman2"></th>
+                    <td class="text-center">四暗刻单骑</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="yiman2"></th>
+                    <td class="text-center">国士无双十三面</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="menqianqing" name="yiman2"></th>
+                    <td class="text-center">纯正九莲宝灯</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-center"><input type="checkbox" class="" name="yiman2"></th>
+                    <td class="text-center">大四喜</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="a-fu-btn text-center">
+      <button type="button" class="btn btn-success" onclick="fan_calculate()">开始计算吧</button>
+      &emsp;&emsp;
+      <button type="button" class="btn btn-danger" onclick="eventList.fan_back()">返回主界面</button><br />
+      <button type="button" class="btn btn-warning" style="margin-top: 1%;" onclick="eventList2.fan_gotofu()">我想计算符数</button>
+      &emsp;&emsp;
+      <button type="button" class="btn btn-info" style="margin-top: 1%;" onclick="eventList2.fan_gotopoint()">我想计算点数</button>
+    </div>
+  </div>
+
+  <div id="a-point" style="display: none;">
+    <div class="card">
+      <div class="card-header">点数总结</div>
+      <div class="card-body">
+        TO BE CONTINUED...
+      </div>
+    </div>
+    <div class="a-fu-btn text-center">
+      <button type="button" class="btn btn-success">开始计算</button>
+      &emsp;&emsp;
+      <button type="button" class="btn btn-danger" onclick="eventList.point_back()">返回初始界面</button>
+    </div>
+  </div>
+
+  <div class="footer text-center">
+    <p style="color: silver;">&copy;2019 淘气包nico ALL RIGHTS RESERVED</p>
+  </div>
+</body>
+</html>
